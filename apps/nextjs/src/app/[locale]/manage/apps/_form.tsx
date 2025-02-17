@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import { Button, Group, Stack, Textarea, TextInput } from "@mantine/core";
+import { Button, Group, Stack, Textarea, TextInput, Collapse } from "@mantine/core";
 import type { z } from "zod";
 
 import { useZodForm } from "@homarr/form";
@@ -37,6 +37,7 @@ export const AppForm = ({
       description: initialValues?.description ?? "",
       iconUrl: initialValues?.iconUrl ?? "",
       href: initialValues?.href ?? "",
+      pingHref: initialValues?.pingHref ?? ""
     },
   });
 
@@ -52,6 +53,8 @@ export const AppForm = ({
     originalHandleSubmit(values, redirect, afterSuccess);
   };
 
+  const [opened, { toggle }] = useDisclosure(false);
+
   return (
     <form onSubmit={form.onSubmit(handleSubmit)}>
       <Stack>
@@ -59,6 +62,9 @@ export const AppForm = ({
         <IconPicker {...form.getInputProps("iconUrl")} />
         <Textarea {...form.getInputProps("description")} label={t("app.field.description.label")} />
         <TextInput {...form.getInputProps("href")} label={t("app.field.url.label")} />
+
+        <Collapse in={opened}>
+        </Collapse>
 
         <Group justify="end">
           <Button variant="default" component={Link} href="/manage/apps">
